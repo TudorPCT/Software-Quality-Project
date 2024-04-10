@@ -68,5 +68,5 @@ The main components of the system are:
 
 ### Deadlines
 
-Set up the teams (3-4 persons): April 22
-Finalize program development: May 13
+- Set up the teams (3-4 persons): April 22
+- Finalize program development: May 13
