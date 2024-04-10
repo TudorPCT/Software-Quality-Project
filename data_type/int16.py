@@ -63,6 +63,9 @@ class Int16:
     def __rshift__(self, shift):
         return Int16(self._value >> shift)
 
+    def to_bits(self):
+        return bin(self._value)[2:].zfill(16)
+
 
 if __name__ == '__main__':
     a = Int16(0b1111111111111111)  # Maximum 16-bit value

@@ -63,6 +63,9 @@ class Int8:
     def __rshift__(self, shift):
         return Int8(self._value >> shift)
 
+    def to_bits(self):
+        return bin(self._value)[2:].zfill(16)
+
 
 if __name__ == '__main__':
     a = Int8(256)  # Providing a value larger than 8-bit range
