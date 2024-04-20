@@ -66,6 +66,9 @@ class Int16:
     def to_bits(self):
         return bin(self._value)[2:].zfill(16)
 
+    def to_pyint(self) -> int:
+        return self._value
+
 
 if __name__ == '__main__':
     a = Int16(0b1111111111111111)  # Maximum 16-bit value
