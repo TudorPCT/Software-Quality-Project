@@ -2,4 +2,6 @@ mov eax, 10
 mov ebx, 11
 mov [10], 24
 sub ebx, eax
-add ebx, [10]
+label:
+    add ebx, [10]
+jmp label

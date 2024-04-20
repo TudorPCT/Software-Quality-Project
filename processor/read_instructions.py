@@ -14,6 +14,7 @@ class InstructionParser:
             'jmp': Jmp, 'je': JE, 'jne': JNE, 'jz': JZ, 'jg': JG, 'jl': JL, 'jge': JGE, 'jle': JLE,
             'push': Push, 'pop': Pop
         }
+        self.jumps = {'jmp', 'je', 'jne', 'jz', 'jg', 'jl', 'jge', 'jle'}
 
     @staticmethod
     def parse_operand(operand_str):
@@ -32,24 +33,37 @@ class InstructionParser:
         else:
             return Operand(Register[operand_str])
 
-    def parse_instruction(self, instruction_str):
+    def parse_instruction(self, instruction_str, labels):
         parts = instruction_str.split()
         if len(parts) >= 2:
             mnemonic = parts[0].lower()
             if mnemonic in self.instruction_classes:
                 instruction_class = self.instruction_classes[mnemonic]
-                operands = [self.parse_operand(op) for op in parts[1:]]
+                if mnemonic in self.jumps:
+                    operands = [labels[parts[1]]]
+                else:
+                    operands = [self.parse_operand(op) for op in parts[1:]]
                 return instruction_class(*operands)
         raise ValueError("Invalid instruction format")
 
     def read_instructions_from_file(self):
         instructions = []
+        labels = {}
+        line_index = 0
+        with open(self.file_path, 'r') as file:
+            for line in file:
+                if line.endswith(":"):
+                    labels[line[:-1]] = line_index
+                    line_index += 1
+                else:
+                    continue
+
         with open(self.file_path, 'r') as file:
             for line in file:
                 line = line.strip()
                 if line:
-                    instructions.append(self.parse_instruction(line))
+                    if line.endswith(":"):
+                        continue
+                    instructions.append(self.parse_instruction(line, labels))
+
         return instructions
-
-
-
