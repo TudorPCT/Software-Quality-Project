@@ -54,9 +54,8 @@ class InstructionParser:
             for line in file:
                 if line.endswith(":"):
                     labels[line[:-1]] = line_index
-                    line_index += 1
                 else:
-                    continue
+                    line_index += 1
 
         with open(self.file_path, 'r') as file:
             for line in file:
