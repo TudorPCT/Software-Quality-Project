@@ -1,5 +1,6 @@
 from data_type.int16 import Int16
 from data_type.int8 import Int8
+from data_type.flag import Flag
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -41,10 +42,23 @@ class Processor:
         self.register_ip = Int16()
         self.register_esp = Int16()
 
-        #self.flag_eq: bool =
+        self.flag_eq = Flag(False)
+        self.flag_neq = Flag(False)
+        self.flag_lt = Flag(False)
+        self.flag_gt = Flag(False)
+        self.flag_lteq = Flag(False)
+        self.flag_gteq = Flag(False)
 
         self.main_memory = main_memory
         self.program_memory = program_memory
+
+    def reset_flags(self):
+        self.flag_eq = Flag(False)
+        self.flag_neq = Flag(False)
+        self.flag_lt = Flag(False)
+        self.flag_gt = Flag(False)
+        self.flag_lteq = Flag(False)
+        self.flag_gteq = Flag(False)
 
     def get_register_val(self, register: Register) -> Int16:
         return getattr(self, f"register_{register.name}")

@@ -1,4 +1,5 @@
 from data_type.int16 import Int16
+from data_type.flag import Flag
 from processor.processor import Operand, Processor, Register, MemoryLocation
 
 
@@ -48,6 +49,22 @@ class BasicInstruction(Instruction):
         self.end(cpu)
 
     def operation(self, lh: Int16, rh: Int16) -> Int16:
+        raise NotImplementedError()
+
+
+class BasicJumpInstruction(Instruction):
+    def __init__(self, address: Operand):
+        super().__init__()
+        assert isinstance(address.data, Int16)
+        self.address = address
+
+    def run(self, cpu: Processor) -> None:
+        if self.condition(cpu):
+            cpu.register_ip = self.address
+        else:
+            self.end(cpu)
+
+    def condition(self, cpu: Processor) -> Flag:
         raise NotImplementedError()
 
 
@@ -203,83 +220,102 @@ class Cmp(Instruction):
         self.lh = lh
         self.rh = rh
 
-class Jmp(Instruction):
+    def run(self, cpu: Processor) -> None:
+        lh_val = get_value(cpu, self.lh)
+        rh_val = get_value(cpu, self.rh)
+
+        cpu.reset_flags()
+
+        cpu.flag_eq = lh_val == rh_val
+        cpu.flag_neq = lh_val != rh_val
+        cpu.flag_lt = lh_val < rh_val
+        cpu.flag_gt = lh_val > rh_val
+
+        cpu.flag_lteq = cpu.flag_eq or cpu.flag_lt
+        cpu.flag_gteq = cpu.flag_eq or cpu.flag_gt
+
+
+class Jmp(BasicJumpInstruction):
     """
     jmp functie1
     jmp 24
     """
-    def __init__(self, lh: Operand):
-        super().__init__()
-        self.lh = lh
+    def __init__(self, address: Operand):
+        super().__init__(address)
+
+    def condition(self, cpu: Processor) -> Flag:
+        return Flag(True)
 
 
-class JE(Instruction):
+class JEQ(BasicJumpInstruction):
+    """
+    jme functie1
+    """
+    def __init__(self, address: Operand):
+        super().__init__(address)
+
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_eq
+
+
+class JNEQ(BasicJumpInstruction):
+    """
+    jme functie1
+    """
+    def __init__(self, address: Operand):
+        super().__init__(address)
+
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_neq
+
+
+class JGT(BasicJumpInstruction):
     """
     jme functie1
     """
 
-    def __init__(self, lh: Operand):
-        super().__init__()
-        self.lh = lh
+    def __init__(self, address: Operand):
+        super().__init__(address)
+
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_gt
 
 
-class JNE(Instruction):
+class JLT(BasicJumpInstruction):
     """
     jme functie1
     """
 
-    def __init__(self, lh: Operand):
-        super().__init__()
-        self.lh = lh
+    def __init__(self, address: Operand):
+        super().__init__(address)
 
-class JZ(Instruction):
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_lt
+
+
+class JGTEQ(BasicJumpInstruction):
     """
     jme functie1
     """
 
-    def __init__(self, lh: Operand):
-        super().__init__()
-        self.lh = lh
+    def __init__(self, address: Operand):
+        super().__init__(address)
+
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_gteq
 
 
-class JG(Instruction):
+class JLTEQ(BasicJumpInstruction):
     """
     jme functie1
     """
 
-    def __init__(self, lh: Operand):
-        super().__init__()
-        self.lh = lh
+    def __init__(self, address: Operand):
+        super().__init__(address)
 
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_lteq
 
-class JL(Instruction):
-    """
-    jme functie1
-    """
-
-    def __init__(self, lh: Operand):
-        super().__init__()
-        self.lh = lh
-
-
-class JGE(Instruction):
-    """
-    jme functie1
-    """
-
-    def __init__(self, lh: Operand):
-        super().__init__()
-        self.lh = lh
-
-
-class JLE(Instruction):
-    """
-    jme functie1
-    """
-
-    def __init__(self, lh: Operand):
-        super().__init__()
-        self.lh = lh
 
 class Push(Instruction):
     """
