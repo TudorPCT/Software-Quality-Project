@@ -2,8 +2,7 @@ class Int8:
     def __init__(self, value=0):
         if value < 0:
             value = 0
-        elif value > 255:
-            value = 255
+        value = value & 255
         self._value = value
 
     def __repr__(self):
@@ -65,6 +64,9 @@ class Int8:
 
     def to_bits(self):
         return bin(self._value)[2:].zfill(16)
+
+    def to_pyint(self) -> int:
+        return self._value
 
 
 if __name__ == '__main__':

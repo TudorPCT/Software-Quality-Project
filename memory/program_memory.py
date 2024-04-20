@@ -56,7 +56,7 @@ class BasicJumpInstruction(Instruction):
     def __init__(self, address: Operand):
         super().__init__()
         assert isinstance(address.data, Int16)
-        self.address = address
+        self.address = address.data
 
     def run(self, cpu: Processor) -> None:
         if self.condition(cpu):
@@ -138,10 +138,14 @@ class NOT(Instruction):
     not eax
     not eax
     """
-    def __init__(self, lh: Operand, rh: Operand):
+    def __init__(self, lh: Operand):
         super().__init__()
         self.lh = lh
-        self.rh = rh
+
+    def run(self, cpu: Processor) -> None:
+        lh_val = get_value(cpu, self.lh)
+        set_value(cpu, self.lh, ~lh_val)
+        self.end(cpu)
 
 
 class AND(BasicInstruction):
@@ -233,6 +237,7 @@ class Cmp(Instruction):
 
         cpu.flag_lteq = cpu.flag_eq or cpu.flag_lt
         cpu.flag_gteq = cpu.flag_eq or cpu.flag_gt
+        self.end(cpu)
 
 
 class Jmp(BasicJumpInstruction):
@@ -338,11 +343,11 @@ class Pop(Instruction):
 
 class ProgramMemory:
     def __init__(self, size: int):
-        self.size = size
+        self.__size = size
         self.__instructions = list[Instruction]()
 
     def load_program(self, program: list[Instruction]):
-        assert len(program) < self.size
+        assert len(program) < self.__size
         self.__instructions = program
 
     def __getitem__(self, idx: Int16) -> Instruction:

@@ -2,9 +2,8 @@ class Int16:
     def __init__(self, value=0):
         if value < 0:
             value = 0
-        elif value > 65535:
-            value = 65535
-        self._value = value & 0xFFFF
+        value = value & 65535
+        self._value = value
 
     def __repr__(self):
         return f"Int16({self._value})"

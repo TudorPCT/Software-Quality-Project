@@ -11,10 +11,10 @@ class InstructionParser:
             'not': NOT, 'and': AND, 'or': OR, 'xor': XOR,
             'shl': SHL, 'shr': SHR,
             'cmp': Cmp,
-            'jmp': Jmp, 'je': JE, 'jne': JNE, 'jz': JZ, 'jg': JG, 'jl': JL, 'jge': JGE, 'jle': JLE,
+            'jmp': Jmp, 'jeq': JEQ, 'jneq': JNEQ, 'jgt': JGT, 'jlt': JLT, 'jgteq': JGTEQ, 'jlteq': JLTEQ,
             'push': Push, 'pop': Pop
         }
-        self.jumps = {'jmp', 'je', 'jne', 'jz', 'jg', 'jl', 'jge', 'jle'}
+        self.jumps = {'jmp', 'jeq', 'jneq', 'jgt', 'jlt', 'jgteq', 'jlteq'}
 
     @staticmethod
     def parse_operand(operand_str):
@@ -40,7 +40,7 @@ class InstructionParser:
             if mnemonic in self.instruction_classes:
                 instruction_class = self.instruction_classes[mnemonic]
                 if mnemonic in self.jumps:
-                    operands = [labels[parts[1]]]
+                    operands = [Operand(Int16(labels[parts[1]]))]
                 else:
                     operands = [self.parse_operand(op) for op in parts[1:]]
                 return instruction_class(*operands)
@@ -52,12 +52,13 @@ class InstructionParser:
         line_index = 0
         with open(self.file_path, 'r') as file:
             for line in file:
+                line = line.strip()
                 if line.endswith(":"):
                     labels[line[:-1]] = line_index
-                else:
+                elif line:
                     line_index += 1
 
-        with open(self.file_path, 'r') as file:
+            file.seek(0)
             for line in file:
                 line = line.strip()
                 if line:
