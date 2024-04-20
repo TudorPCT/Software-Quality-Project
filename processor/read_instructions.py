@@ -1,9 +1,5 @@
 from memory.program_memory import *
-
-
-class MemoryOperand:
-    def __init__(self, address):
-        self.address = address
+from processor.processor import Register, MemoryLocation, Operand
 
 
 class InstructionParser:
@@ -21,15 +17,20 @@ class InstructionParser:
 
     @staticmethod
     def parse_operand(operand_str):
+        if operand_str.endswith(","):
+            operand_str = operand_str[:-1]
+
         if operand_str.startswith("[") and operand_str.endswith("]"):
             value = operand_str[1:-1]
             if value.isdigit():
-                return MemoryOperand(int(value))
-                pass
+                return Operand(MemoryLocation(Int16(int(value))))
+
+            return Operand(MemoryLocation(Register[operand_str]))
+
         elif operand_str.isdigit():
-            return Int16(int(operand_str))
+            return Operand(Int16(int(operand_str)))
         else:
-            return operand_str
+            return Operand(Register[operand_str])
 
     def parse_instruction(self, instruction_str):
         parts = instruction_str.split()
@@ -50,10 +51,5 @@ class InstructionParser:
                     instructions.append(self.parse_instruction(line))
         return instructions
 
-
-if __name__ == "__main__":
-    instruction_parser = InstructionParser("/Users/cosminpasat/Desktop/MAN1/QA/Software-Quality-Project/resources/instructions.txt")
-    instructions = instruction_parser.read_instructions_from_file()
-    print("asd")
 
 

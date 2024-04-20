@@ -1,12 +1,15 @@
 from data_type.int16 import Int16
 from data_type.int8 import Int8
-from memory.program_memory import ProgramMemory
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from memory.program_memory import ProgramMemory
+
 from memory.main_memory import MainMemory
 from enum import Enum
 
 
-
-class Registries(Enum):
+class Register(Enum):
     eax = 0
     ebx = 1
     ecx = 2
@@ -18,31 +21,38 @@ class Registries(Enum):
 
 
 class MemoryLocation:
-    def __init__(self, data: Registries | Int16):
+    def __init__(self, data: Register | Int16):
         self.data = data
 
 
 class Operand:
-    def __init__(self, data: Int16 | Registries | MemoryLocation):
+    def __init__(self, data: Int16 | Register | MemoryLocation):
         self.data = data
 
 
-
 class Processor:
-    def __init__(self, main_memory: MainMemory, program_memory: ProgramMemory):
-        self.eax = Int16()
-        self.ebx = Int16()
-        self.ecx = Int16()
-        self.edx = Int16()
-        self.efx = Int16()
-        self.egx = Int16()
-        self.ip = Int16()
-        self.esp = Int16()
+    def __init__(self, main_memory: MainMemory, program_memory: 'ProgramMemory'):
+        self.register_eax = Int16()
+        self.register_ebx = Int16()
+        self.register_ecx = Int16()
+        self.register_edx = Int16()
+        self.register_efx = Int16()
+        self.register_egx = Int16()
+        self.register_ip = Int16()
+        self.register_esp = Int16()
+
+        #self.flag_eq: bool =
 
         self.main_memory = main_memory
         self.program_memory = program_memory
 
+    def get_register_val(self, register: Register) -> Int16:
+        return getattr(self, f"register_{register.name}")
+
+    def set_register_val(self, register: Register, val: Int16):
+        setattr(self, f"register_{register.name}", val)
+
     def run(self):
-        while self.ip < len(self.program_memory):
-            current_instruction = self.program_memory[self.ip]
+        while self.register_ip < self.program_memory.get_len():
+            current_instruction = self.program_memory[self.register_ip]
             current_instruction.run(self)

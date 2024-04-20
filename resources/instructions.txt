@@ -1,3 +1,5 @@
 mov eax, 10
 mov ebx, 11
-sub eax, ebx
+mov [10], 24
+sub ebx, eax
+add ebx, [10]
