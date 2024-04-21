@@ -1,0 +1,9 @@
+MOV eax, 10
+MOV ebx, 1
+MOV edx, 0
+
+LOOP:
+    ADD edx, ebx
+    ADD ebx, 1
+    CMP ebx, eax
+    JLTEQ LOOP

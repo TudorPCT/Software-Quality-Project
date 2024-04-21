@@ -38,7 +38,7 @@ class Processor:
         self.register_ecx = Int16()
         self.register_edx = Int16()
         self.register_efx = Int16()
-        self.register_egx = Int16()
+        self.register_ebp_egx = Int16()
         self.register_ip = Int16()
         self.register_esp = Int16()
 

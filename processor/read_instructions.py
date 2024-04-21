@@ -1,5 +1,8 @@
 from memory.program_memory import *
 from processor.processor import Register, MemoryLocation, Operand
+from memory.instructions.basic_intructions import *
+from memory.instructions.jump_instructions import *
+from memory.instructions.stack_instructions import *
 
 
 class InstructionParser:
