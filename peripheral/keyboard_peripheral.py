@@ -5,10 +5,10 @@ import tkinter as tk
 
 
 keys = [
-    ['1', '2', '3', '4', '5' '6', '7', '8', '9', '0', '-', '='],
-    ['Q', 'W', 'E', 'R', 'T' 'Y', 'U', 'I', 'O', 'P', '[', ']'],
-    ['A', 'S', 'D', 'F', 'G' 'H', 'J', 'K', 'L', ';', '~', '|'],
-    ['Z', 'X', 'C', 'V', 'B' 'N', 'M', '<', '>', '#', '?', '@']
+    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']'],
+    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '~', '|'],
+    ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '#', '?', '@']
 ]
 
 
@@ -25,7 +25,10 @@ class KeyboardPeripheral(Peripheral):
         self.main_frame = Frame(root.window, bg='Powder Blue', width=1250, height=490)
         for line, keys_in_line in enumerate(keys):
             for col, key in enumerate(keys_in_line):
-                tk.Button(self.main_frame, text=key, width=7, height=2).grid(row=line, column=col)
+                tk.Button(self.main_frame, text=key, width=7, height=2,
+                          command=lambda arg_key=key: self.__push_key(Int8(ord(arg_key)))).grid(row=line, column=col)
+
+        self.main_frame.pack()
 
     def __getitem__(self, idx: Int8) -> Int8:
         assert (self.__memory is not None) and (self.__assigned_memory_idx is not None)
