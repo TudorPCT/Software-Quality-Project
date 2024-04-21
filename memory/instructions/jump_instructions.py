@@ -13,6 +13,11 @@ class BasicJumpInstruction(Instruction):
         else:
             self.end(cpu)
 
+    @staticmethod
+    def static_run(address: Operand, cpu: Processor):
+        assert isinstance(address.data, Int16)
+        cpu.register_ip = address.data
+
     def condition(self, cpu: Processor) -> Flag:
         raise NotImplementedError()
 

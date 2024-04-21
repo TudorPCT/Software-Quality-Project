@@ -15,9 +15,11 @@ class InstructionParser:
             'shl': SHL, 'shr': SHR,
             'cmp': Cmp,
             'jmp': Jmp, 'jeq': JEQ, 'jneq': JNEQ, 'jgt': JGT, 'jlt': JLT, 'jgteq': JGTEQ, 'jlteq': JLTEQ,
-            'push': Push, 'pop': Pop
+            'push': Push, 'pop': Pop,
+            'ret': Ret,
+            'call': Call
         }
-        self.jumps = {'jmp', 'jeq', 'jneq', 'jgt', 'jlt', 'jgteq', 'jlteq'}
+        self.jumps = {'jmp', 'jeq', 'jneq', 'jgt', 'jlt', 'jgteq', 'jlteq', 'call'}
 
     @staticmethod
     def parse_operand(operand_str):

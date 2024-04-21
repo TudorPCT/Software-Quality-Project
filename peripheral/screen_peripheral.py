@@ -14,7 +14,6 @@ class ScreenPeripheral(Peripheral):
                                              for _ in range(ScreenPeripheral.lines_nr.to_pyint())]
         self.main_frame: Frame = None
 
-
     @staticmethod
     def get_necessarily_memory_size() -> Int8:
         return ScreenPeripheral.lines_nr * ScreenPeripheral.cols_nr
@@ -27,17 +26,16 @@ class ScreenPeripheral(Peripheral):
         self.main_frame = Frame(root.window, bg='black', width=1250, height=490)
         for i in range(ScreenPeripheral.lines_nr.to_pyint()):
             for j in range(ScreenPeripheral.cols_nr.to_pyint()):
-                 frame = tk.Frame(
-                   master=self.main_frame,
-                   relief=tk.FLAT,
-                   borderwidth=1
-                 )
-                 frame.grid(row=i, column=j)
-                 self.pixels[i][j] = tk.Label(master=frame, bg="black", fg="white", height=2, width=4, padx=0, pady=0)
-                 self.pixels[i][j].pack()
+                frame = tk.Frame(
+                  master=self.main_frame,
+                  relief=tk.FLAT,
+                  borderwidth=1
+                )
+                frame.grid(row=i, column=j)
+                self.pixels[i][j] = tk.Label(master=frame, bg="black", fg="white", height=2, width=4, padx=0, pady=0)
+                self.pixels[i][j].pack()
 
         self.main_frame.pack()
-         
 
     def __getitem__(self, idx: Int8) -> Int8:
         raise NotImplementedError()

@@ -1,4 +1,5 @@
 from memory.instructions.instruction import Instruction, Processor, Operand, MemoryLocation, Register, Int16, get_value, set_value
+from memory.instructions.jump_instructions import BasicJumpInstruction
 
 
 class Push(Instruction):
@@ -54,7 +55,8 @@ class Call(Instruction):
         self.address = address
 
     def run(self, cpu: Processor) -> None:
-        pass
+        Push.static_run(cpu.register_ip + Int16(1), cpu)
+        BasicJumpInstruction.static_run(self.address, cpu)
 
 
 class Ret(Instruction):
@@ -67,5 +69,3 @@ class Ret(Instruction):
 
     def run(self, cpu: Processor) -> None:
         Pop.static_run(Operand(Register.ip), cpu)
-
-
