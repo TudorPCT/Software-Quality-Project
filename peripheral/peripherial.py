@@ -12,6 +12,17 @@ class Peripheral:
         self.__memory: 'MainMemory' = None
         self.__assigned_memory_idx: Int16 = None
 
+    @property
+    def assigned_memory_idx(self) -> Int16():
+        return self.__assigned_memory_idx
+
+    @staticmethod
+    def get_necessarily_memory_size() -> Int8:
+        raise NotImplementedError()
+
+    def print_report(self):
+        raise NotImplementedError()
+
     def configure_memory(self, memory: 'MainMemory', assigned_memory_idx: Int16) -> None:
         self.__memory = memory
         self.__assigned_memory_idx = assigned_memory_idx

@@ -18,6 +18,14 @@ class KeyboardPeripheral(Peripheral):
         self.keys = list[Int8]()
         self.main_frame: Frame = None
 
+    @staticmethod
+    def get_necessarily_memory_size() -> Int8:
+        return Int8(1)
+
+    def print_report(self):
+        print(f"Peripheral name: KeyboardPeripheral\nAssigned memory address: {self.assigned_memory_idx}\n"
+              f"Memory size: {self.get_necessarily_memory_size()}\n{'=' * 20}\n")
+
     def __push_key(self, key_code: Int8):
         self.keys.append(key_code)
 

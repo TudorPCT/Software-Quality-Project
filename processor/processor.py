@@ -16,7 +16,7 @@ class Register(Enum):
     ecx = 2
     edx = 3
     efx = 4
-    egx = 5
+    register_ebp_egx = 5
     ip = 6
     esp = 7
 
@@ -40,7 +40,8 @@ class Processor:
         self.register_efx = Int16()
         self.register_ebp_egx = Int16()
         self.register_ip = Int16()
-        self.register_esp = Int16()
+        self.register_esp = main_memory.get_stack_base()
+        self.__stack_information(self.register_esp)
 
         self.flag_eq = Flag(False)
         self.flag_neq = Flag(False)
@@ -51,6 +52,10 @@ class Processor:
 
         self.main_memory = main_memory
         self.program_memory = program_memory
+
+    @staticmethod
+    def __stack_information(stack_base: Int16):
+        print(f"Stack starts from {stack_base} and continues downwards")
 
     def reset_flags(self):
         self.flag_eq = Flag(False)

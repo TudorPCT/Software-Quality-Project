@@ -9,6 +9,23 @@ from peripheral.peripherial import Peripheral
 class MainMemory:
     def __init__(self, size: int, mapped_peripherals: list[Peripheral]):
         self.__memory: list[Int8] = [Int8(0) for _ in range(size)]
+        self.__mapped_peripherals, self.__reserved_memory_for_peripherals = \
+            self.__peripherals_configure(mapped_peripherals)
+
+        self.__print_peripherals_report()
+
+    def __print_peripherals_report(self):
+        for peripheral in self.__mapped_peripherals:
+            peripheral.print_report()
+
+    def __peripherals_configure(self, mapped_peripherals: list[Peripheral]) -> tuple[list[Peripheral], Int16]:
+        reserved_memory_for_peripherals = Int16()
+
+        for peripheral in mapped_peripherals:
+            reserved_memory_for_peripherals += Int16(peripheral.get_necessarily_memory_size().to_pyint())
+            peripheral.configure_memory(self, Int16(len(self.__memory) - 1) - reserved_memory_for_peripherals)
+
+        return mapped_peripherals, reserved_memory_for_peripherals
 
     def __getitem__(self, idx: Int16) -> Int16:
         assert idx.to_pyint() + 1 < len(self.__memory)
@@ -27,4 +44,4 @@ class MainMemory:
         self.__memory[address + 1] = rh
 
     def get_stack_base(self) -> Int16:
-        return Int16(len(self.__memory))
+        return Int16(len(self.__memory) - 2) - self.__reserved_memory_for_peripherals
