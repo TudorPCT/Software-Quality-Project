@@ -44,4 +44,4 @@ class MainMemory:
         self.__memory[address + 1] = rh
 
     def get_stack_base(self) -> Int16:
-        return Int16(len(self.__memory) - 2) - self.__reserved_memory_for_peripherals
+        return Int16(len(self.__memory) - 3) - self.__reserved_memory_for_peripherals

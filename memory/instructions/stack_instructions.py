@@ -11,28 +11,37 @@ class Push(Instruction):
         self.location = location
 
     def run(self, cpu: Processor) -> None:
-        lh_val = get_value(cpu, self.lh)
-        rh_val = get_value(cpu, self.rh)
-
-        cpu.reset_flags()
-
-        cpu.flag_eq = lh_val == rh_val
-        cpu.flag_neq = lh_val != rh_val
-        cpu.flag_lt = lh_val < rh_val
-        cpu.flag_gt = lh_val > rh_val
-
-        cpu.flag_lteq = cpu.flag_eq or cpu.flag_lt
-        cpu.flag_gteq = cpu.flag_eq or cpu.flag_gt
+        self.static_run(self.location, cpu)
         self.end(cpu)
+
+    @staticmethod
+    def static_run(location: Operand, cpu: Processor):
+        cpu.main_memory[cpu.register_esp] = get_value(cpu, location)
+        cpu.register_esp -= 2
+
+        assert cpu.register_esp > 0, "Stack Overflow!"
+
 
 class Pop(Instruction):
     """
     pop eax
     """
 
-    def __init__(self, lh: Operand):
+    def __init__(self, location: Operand):
         super().__init__()
-        self.lh = lh
+        self.location = location
+
+    def run(self, cpu: Processor) -> None:
+        self.static_run(self.location, cpu)
+        self.end(cpu)
+
+    @staticmethod
+    def static_run(location: Operand, cpu: Processor):
+        assert isinstance(location.data, Register) or isinstance(location.data, MemoryLocation)
+        assert cpu.main_memory.get_stack_base() >= cpu.register_esp + 2
+
+        set_value(cpu, location, cpu.main_memory[cpu.register_esp + 2])
+        cpu.register_esp += 2
 
 
 class Call(Instruction):
@@ -40,16 +49,23 @@ class Call(Instruction):
     pop eax
     """
 
-    def __init__(self, lh: Operand):
+    def __init__(self, address: Operand):
         super().__init__()
-        self.lh = lh
+        self.address = address
+
+    def run(self, cpu: Processor) -> None:
+        pass
 
 
 class Ret(Instruction):
     """
-    pop eax
+    ret
     """
 
-    def __init__(self, lh: Operand):
+    def __init__(self):
         super().__init__()
-        self.lh = lh
+
+    def run(self, cpu: Processor) -> None:
+        Pop.static_run(Operand(Register.ip), cpu)
+
+
