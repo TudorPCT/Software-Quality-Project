@@ -13,6 +13,10 @@ class Peripheral:
         self.__assigned_memory_idx: Int16 = None
 
     @property
+    def memory(self) -> 'MainMemory':
+        return self.__memory
+
+    @property
     def assigned_memory_idx(self) -> Int16():
         return self.__assigned_memory_idx
 

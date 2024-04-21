@@ -39,7 +39,7 @@ class KeyboardPeripheral(Peripheral):
         self.main_frame.pack()
 
     def __getitem__(self, idx: Int8) -> Int8:
-        assert (self.__memory is not None) and (self.__assigned_memory_idx is not None)
+        assert (self.memory is not None) and (self.assigned_memory_idx is not None)
         if len(self.keys) == 0:
             return Int8(0)
         return Int8(self.keys.pop(0))
