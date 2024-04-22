@@ -1,0 +1,39 @@
+JMP input_loop
+
+print_to_screen:
+    MOV [830], edx
+    MOV [831], edx
+    MOV [832], edx
+    MOV [842], edx
+    MOV [843], edx
+    MOV [844], edx
+    JMP ret_print_to_screen
+
+movg_ebx:
+    JLTEQ movg_ebx_end
+    MOV ebx, 1
+movg_ebx_end:
+    RET
+
+movl_ecx:
+    JGTEQ movg_ebx_end
+    MOV ecx, 1
+movl_ecx_end:
+    RET
+
+input_loop:
+    MOV edx, [1022]
+
+    MOV ebx, 0
+    MOV ecx, 0
+    CMP edx, 47
+    CALL movg_ebx
+    CMP edx, 58
+    CALL movl_ecx
+    AND ebx, ecx
+    CMP ebx, 1
+    JEQ print_to_screen
+
+ret_print_to_screen:
+
+    JMP input_loop
