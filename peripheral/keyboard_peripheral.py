@@ -22,6 +22,10 @@ class KeyboardPeripheral(Peripheral):
     def get_necessarily_memory_size() -> Int8:
         return Int8(1)
 
+    def in_range(self, idx: Int16) -> bool:
+        return self.assigned_memory_idx <= idx < self.assigned_memory_idx + Int16(self.get_necessarily_memory_size().
+                                                                                  to_pyint())
+
     def print_report(self):
         print(f"Peripheral name: KeyboardPeripheral\nAssigned memory address: {self.assigned_memory_idx}\n"
               f"Memory size: {self.get_necessarily_memory_size()}\n{'=' * 20}\n")
@@ -42,7 +46,7 @@ class KeyboardPeripheral(Peripheral):
         assert (self.memory is not None) and (self.assigned_memory_idx is not None)
         if len(self.keys) == 0:
             return Int8(0)
-        return Int8(self.keys.pop(0))
+        return self.keys.pop(0)
 
     def __setitem__(self, idx: Int8, val: Int8):
         raise NotImplementedError()

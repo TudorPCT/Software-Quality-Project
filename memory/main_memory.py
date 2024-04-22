@@ -29,12 +29,25 @@ class MainMemory:
 
     def __getitem__(self, idx: Int16) -> Int16:
         assert idx.to_pyint() + 1 < len(self.__memory)
+
+        if idx >= Int16(len(self.__memory) - 1) - self.__reserved_memory_for_peripherals:
+            for peripheral in self.__mapped_peripherals:
+                if peripheral.in_range(idx):
+                    return Int16(peripheral[idx - peripheral.assigned_memory_idx].to_pyint())
+
         address = idx.to_pyint()
         result = (self.__memory[address].to_pyint() << 8) | self.__memory[address + 1].to_pyint()
         return Int16(result)
 
     def __setitem__(self, idx: Int16, val: Int16):
         assert idx.to_pyint() + 1 < len(self.__memory)
+
+        if idx >= Int16(len(self.__memory) - 1) - self.__reserved_memory_for_peripherals:
+            for peripheral in self.__mapped_peripherals:
+                if peripheral.in_range(idx):
+                    peripheral[idx - peripheral.assigned_memory_idx] = Int8(val.to_pyint())
+                    return
+
         address = idx.to_pyint()
 
         rh = Int8(val.to_pyint())

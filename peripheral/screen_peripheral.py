@@ -18,6 +18,10 @@ class ScreenPeripheral(Peripheral):
     def get_necessarily_memory_size() -> Int8:
         return ScreenPeripheral.lines_nr * ScreenPeripheral.cols_nr
 
+    def in_range(self, idx: Int16) -> bool:
+        return self.assigned_memory_idx <= idx < self.assigned_memory_idx + Int16(self.get_necessarily_memory_size().
+                                                                                  to_pyint())
+
     def print_report(self):
         print(f"Peripheral name: ScreenPeripheral\nAssigned memory address: {self.assigned_memory_idx}\n"
               f"Memory size: {self.get_necessarily_memory_size()}\n{'=' * 20}\n")

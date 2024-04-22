@@ -18,17 +18,22 @@ class BasicInstruction(Instruction):
         raise NotImplementedError()
 
 
-class Mov(BasicInstruction):
+class Mov(Instruction):
     """
     mov eax, ebx
     mov eax, 10
     mov [10], ecx
     """
     def __init__(self, lh: Operand, rh: Operand):
-        super().__init__(lh, rh)
+        super().__init__()
+        self.lh = lh
+        self.rh = rh
 
-    def operation(self, lh: Int16, rh: Int16) -> Int16:
-        return rh
+    def run(self, cpu: Processor) -> None:
+        assert isinstance(self.lh.data, Register) or isinstance(self.lh.data, MemoryLocation)
+        rh_val = get_value(cpu, self.rh)
+        set_value(cpu, self.lh, rh_val)
+        self.end(cpu)
 
 
 class Add(BasicInstruction):

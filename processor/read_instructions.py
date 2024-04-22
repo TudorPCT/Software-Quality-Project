@@ -20,6 +20,7 @@ class InstructionParser:
             'call': Call
         }
         self.jumps = {'jmp', 'jeq', 'jneq', 'jgt', 'jlt', 'jgteq', 'jlteq', 'call'}
+        self.no_arg_instructions = {'ret'}
 
     @staticmethod
     def parse_operand(operand_str):
@@ -49,6 +50,10 @@ class InstructionParser:
                 else:
                     operands = [self.parse_operand(op) for op in parts[1:]]
                 return instruction_class(*operands)
+
+        elif len(parts) == 1 and parts[0].lower() in self.no_arg_instructions:
+            return self.instruction_classes[parts[0].lower()]()
+
         raise ValueError("Invalid instruction format")
 
     def read_instructions_from_file(self):

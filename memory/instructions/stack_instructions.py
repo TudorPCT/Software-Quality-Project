@@ -18,9 +18,9 @@ class Push(Instruction):
     @staticmethod
     def static_run(location: Operand, cpu: Processor):
         cpu.main_memory[cpu.register_esp] = get_value(cpu, location)
-        cpu.register_esp -= 2
+        cpu.register_esp -= Int16(2)
 
-        assert cpu.register_esp > 0, "Stack Overflow!"
+        assert cpu.register_esp > Int16(0), "Stack Overflow!"
 
 
 class Pop(Instruction):
@@ -39,10 +39,10 @@ class Pop(Instruction):
     @staticmethod
     def static_run(location: Operand, cpu: Processor):
         assert isinstance(location.data, Register) or isinstance(location.data, MemoryLocation)
-        assert cpu.main_memory.get_stack_base() >= cpu.register_esp + 2
+        assert cpu.main_memory.get_stack_base() >= cpu.register_esp + Int16(2)
 
-        set_value(cpu, location, cpu.main_memory[cpu.register_esp + 2])
-        cpu.register_esp += 2
+        set_value(cpu, location, cpu.main_memory[cpu.register_esp + Int16(2)])
+        cpu.register_esp += Int16(2)
 
 
 class Call(Instruction):
@@ -55,7 +55,7 @@ class Call(Instruction):
         self.address = address
 
     def run(self, cpu: Processor) -> None:
-        Push.static_run(cpu.register_ip + Int16(1), cpu)
+        Push.static_run(Operand(cpu.register_ip + Int16(1)), cpu)
         BasicJumpInstruction.static_run(self.address, cpu)
 
 

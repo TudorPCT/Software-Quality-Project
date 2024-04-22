@@ -13,5 +13,5 @@ class ComputerGUI:
         self.window.mainloop()
 
     def computer_runner(self, fn: Callable):
-        time.sleep(1) # bootup
+        time.sleep(1)  # bootup
         fn()

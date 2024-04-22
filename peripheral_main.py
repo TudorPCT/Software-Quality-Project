@@ -7,23 +7,14 @@ from processor.processor import Processor
 from data_type.int8 import Int8
 import time
 from threading import Thread
-
-
-def computer_run():
-    print("da")
-    time.sleep(5)
-    screen_perf[Int8(10)] = Int8(35)
-    time.sleep(1)
-    screen_perf[Int8(20)] = Int8(35)
-    time.sleep(1)
-    screen_perf[Int8(30)] = Int8(35)
-    time.sleep(1)
-    screen_perf[Int8(40)] = Int8(35)
-    time.sleep(1)
-    screen_perf[Int8(50)] = Int8(35)
+from processor.read_instructions import InstructionParser
 
 
 if __name__ == "__main__":
+    #instruction_parser = InstructionParser(r"D:\personal\Quality\Software-Quality-Project\resources\instructions_prim.txt")
+    instruction_parser = InstructionParser(r"D:\personal\Quality\Software-Quality-Project\resources\instructions_screen_keyboard.txt")
+    instructions = instruction_parser.read_instructions_from_file()
+
     gui = ComputerGUI()
 
     keyboard_perf = KeyboardPeripheral()
@@ -34,10 +25,11 @@ if __name__ == "__main__":
 
     main_memory = MainMemory(1024, [keyboard_perf, screen_perf])
     program_memory = ProgramMemory(128)
+    program_memory.load_program(instructions)
 
     cpu = Processor(main_memory, program_memory)
 
-    gui.run(computer_run)
+    gui.run(cpu.run)
 
 
 

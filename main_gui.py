@@ -38,7 +38,3 @@ if __name__ == "__main__":
     cpu = Processor(main_memory, program_memory)
 
     gui.run(computer_run)
-
-    
-
-    

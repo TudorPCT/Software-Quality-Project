@@ -24,6 +24,9 @@ class Peripheral:
     def get_necessarily_memory_size() -> Int8:
         raise NotImplementedError()
 
+    def in_range(self, idx: Int16) -> bool:
+        raise NotImplementedError()
+
     def print_report(self):
         raise NotImplementedError()
 
