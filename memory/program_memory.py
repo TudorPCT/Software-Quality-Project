@@ -6,6 +6,9 @@ from memory.instructions.instruction import Instruction
 
 class ProgramMemory:
     def __init__(self, size: int):
+        assert size % 1024 == 0
+        assert size < 65536
+
         self.__size = size
         self.__instructions = list[Instruction]()
 
