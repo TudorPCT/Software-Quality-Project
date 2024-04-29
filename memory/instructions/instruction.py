@@ -1,5 +1,4 @@
 from data_type.int16 import Int16
-from data_type.flag import Flag
 from processor.processor import Operand, Processor, Register, MemoryLocation
 
 
