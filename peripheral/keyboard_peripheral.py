@@ -1,5 +1,5 @@
 from peripheral.peripherial import Peripheral, Int16, Int8
-from tkinter import Label, Frame
+from tkinter import Frame
 from gui.computer_gui import ComputerGUI
 import tkinter as tk
 

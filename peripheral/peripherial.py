@@ -1,7 +1,6 @@
 from data_type.int16 import Int16
 from data_type.int8 import Int8
 from typing import TYPE_CHECKING
-from tkinter import Label, Frame
 from gui.computer_gui import ComputerGUI
 if TYPE_CHECKING:
     from memory.main_memory import MainMemory

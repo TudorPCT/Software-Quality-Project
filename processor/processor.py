@@ -1,5 +1,4 @@
 from data_type.int16 import Int16
-from data_type.int8 import Int8
 from data_type.flag import Flag
 
 from typing import TYPE_CHECKING
