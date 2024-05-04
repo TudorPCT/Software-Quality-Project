@@ -13,7 +13,7 @@ class InstructionParser:
             'shl': SHL, 'shr': SHR,
             'cmp': Cmp,
             'jmp': Jmp, 'jeq': JEQ, 'jneq': JNEQ, 'jgt': JGT, 'jlt': JLT, 'jgteq': JGTEQ, 'jlteq': JLTEQ,
-            'jz': JZ, 'jnz': JNZ, 'js': JS, 'jns': JNS, 'jc': JC, 'JNC': JNC,
+            'jz': JZ, 'jnz': JNZ,
             'push': Push, 'pop': Pop,
             'ret': Ret,
             'call': Call

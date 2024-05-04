@@ -7,4 +7,3 @@ def get_data(file_path):
                 assert len(line) == 2
                 data[line[0]] = int(line[1])
     return data
-

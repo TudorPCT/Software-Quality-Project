@@ -50,9 +50,6 @@ class Processor:
         self.flag_gteq = Flag(False)
 
         self.flag_zero = False
-        self.flag_carry = False
-        self.flag_overflow = False
-        self.flag_negative = False
 
         self.main_memory = main_memory
         self.program_memory = program_memory
@@ -71,9 +68,6 @@ class Processor:
 
     def reset_arithemetic_flags(self):
         self.flag_zero = False
-        self.flag_carry = False
-        self.flag_overflow = False
-        self.flag_negative = False
 
     def get_register_val(self, register: Register) -> Int16:
         return getattr(self, f"register_{register.name}")

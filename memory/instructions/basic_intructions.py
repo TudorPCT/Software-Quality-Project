@@ -19,11 +19,6 @@ class BasicInstruction(Instruction):
         result = self.operation(lh_val, rh_val)
 
         cpu.flag_zero = result[0] == 0
-        cpu.flag_negative = result[0] < 0
-
-        result = abs(result)
-
-        cpu.flag_carry = result > 2 ^ 16
 
         set_value(cpu, self.lh, Int16(result[0]))
         set_value(cpu, self.rh, result[1])

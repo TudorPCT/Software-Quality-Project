@@ -1,7 +1,6 @@
 from memory.main_memory import MainMemory
-from memory.program_memory import ProgramMemory, Operand, Int16, MemoryLocation, Register
+from memory.program_memory import ProgramMemory
 from memory.instructions.basic_intructions import *
-from memory.instructions.jump_instructions import *
 from memory.instructions.stack_instructions import *
 from processor.processor import Processor
 

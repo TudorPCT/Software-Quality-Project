@@ -32,4 +32,3 @@ class Instruction:
 
     def end(self, cpu: Processor):
         cpu.register_ip += Int16(1)
-
