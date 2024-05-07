@@ -1,4 +1,5 @@
-from memory.instructions.instruction import Instruction, Processor, Operand, MemoryLocation, Register, Int16, get_value, set_value
+from memory.instructions.instruction import Instruction, Processor, Operand, MemoryLocation, \
+    Register, Int16, get_value, set_value
 from memory.instructions.jump_instructions import BasicJumpInstruction
 
 

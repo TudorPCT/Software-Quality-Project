@@ -9,9 +9,20 @@ class BasicInstruction(Instruction):
 
     def run(self, cpu: Processor) -> None:
         assert isinstance(self.lh.data, Register) or isinstance(self.lh.data, MemoryLocation)
+
+        zero = Int16(0)
+
+        cpu.reset_arithemetic_flags()
+
         lh_val = get_value(cpu, self.lh)
         rh_val = get_value(cpu, self.rh)
-        set_value(cpu, self.lh, self.operation(lh_val, rh_val))
+
+        result = self.operation(lh_val, rh_val)
+
+        cpu.flag_zero = result == zero
+
+        set_value(cpu, self.lh, result)
+
         self.end(cpu)
 
     def operation(self, lh: Int16, rh: Int16) -> Int16:

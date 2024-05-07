@@ -1,4 +1,5 @@
-from memory.instructions.instruction import Instruction, Processor, Operand, MemoryLocation, Register, Int16, Flag, get_value, set_value
+from data_type.flag import Flag
+from memory.instructions.instruction import Instruction, Processor, Operand, Int16
 
 
 class BasicJumpInstruction(Instruction):
@@ -102,3 +103,27 @@ class JLTEQ(BasicJumpInstruction):
 
     def condition(self, cpu: Processor) -> Flag:
         return cpu.flag_lteq
+
+
+class JZ(BasicJumpInstruction):
+    """
+    jz label
+    """
+
+    def __init__(self, address: Operand):
+        super().__init__(address)
+
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_zero
+
+
+class JNZ(BasicJumpInstruction):
+    """
+    jnz label
+    """
+
+    def __init__(self, address: Operand):
+        super().__init__(address)
+
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_zero.__not__()

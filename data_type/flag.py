@@ -7,3 +7,6 @@ class Flag:
 
     def __or__(self, other: "Flag") -> "Flag":
         return Flag(self.value or other.value)
+
+    def __not__(self) -> "Flag":
+        return Flag(not self.value)

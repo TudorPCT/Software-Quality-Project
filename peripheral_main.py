@@ -1,23 +1,26 @@
+import os
+
 from gui.computer_gui import ComputerGUI
 from peripheral.keyboard_peripheral import KeyboardPeripheral
 from peripheral.screen_peripheral import ScreenPeripheral
 from memory.main_memory import MainMemory
 from memory.program_memory import ProgramMemory
 from processor.processor import Processor
-from data_type.int8 import Int8
 from data_type.int16 import Int16
-import time
-from threading import Thread
 from processor.read_instructions import InstructionParser
 from util.config_parser import get_data
 
 
 if __name__ == "__main__":
-    #instruction_parser = InstructionParser(r"D:\personal\Quality\Software-Quality-Project\resources\instructions_prim.txt")
-    instruction_parser = InstructionParser(r"D:\personal\Quality\Software-Quality-Project\resources\instructions_screen_keyboard.txt")
+    # instruction_parser = InstructionParser(
+    #     r"D:\personal\Quality\Software-Quality-Project\resources\instructions_prim.txt"
+    # )
+    instruction_parser = InstructionParser(
+        f".{os.sep}resources{os.sep}instructions_screen_keyboard.txt"
+    )
     instructions = instruction_parser.read_instructions_from_file()
 
-    config_data = get_data(r"D:\personal\Quality\Software-Quality-Project\resources\config\config_alabul.txt")
+    config_data = get_data(f".{os.sep}resources{os.sep}config{os.sep}config_alabul.txt")
 
     gui = ComputerGUI()
 
@@ -41,6 +44,3 @@ if __name__ == "__main__":
     cpu = Processor(main_memory, program_memory)
 
     gui.run(cpu.run)
-
-
-

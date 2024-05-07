@@ -8,50 +8,54 @@ class Int8:
     def __repr__(self):
         return f"Int8({self._value})"
 
+    @property
+    def value(self):
+        return self._value
+
     def __str__(self):
         return str(self._value)
 
     def __add__(self, other):
-        return Int8(self._value + other._value)
+        return Int8(self._value + other.value)
 
     def __sub__(self, other):
-        return Int8(self._value - other._value)
+        return Int8(self._value - other.value)
 
     def __mul__(self, other):
-        return Int8(self._value * other._value)
+        return Int8(self._value * other.value)
 
     def __truediv__(self, other):
-        return Int8(self._value // other._value)
+        return Int8(self._value // other.value)
 
     def __mod__(self, other):
-        return Int8(self._value % other._value)
+        return Int8(self._value % other.value)
 
     def __eq__(self, other):
-        return self._value == other._value
+        return self._value == other.value
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __lt__(self, other):
-        return self._value < other._value
+        return self._value < other.value
 
     def __gt__(self, other):
-        return self._value > other._value
+        return self._value > other.value
 
     def __le__(self, other):
-        return self._value <= other._value
+        return self._value <= other.value
 
     def __ge__(self, other):
-        return self._value >= other._value
+        return self._value >= other.value
 
     def __and__(self, other):
-        return Int8(self._value & other._value)
+        return Int8(self._value & other.value)
 
     def __or__(self, other):
-        return Int8(self._value | other._value)
+        return Int8(self._value | other.value)
 
     def __xor__(self, other):
-        return Int8(self._value ^ other._value)
+        return Int8(self._value ^ other.value)
 
     def __invert__(self):
         return Int8(~self._value)
@@ -77,4 +81,4 @@ if __name__ == '__main__':
     print("b =", b)  # Output: b = 100
 
     c = Int8(0b1111111111)  # Providing a value larger than 8-bit range
-    print("c =", c) # Output: c = 255 (maximum allowed value)
+    print("c =", c)  # Output: c = 255 (maximum allowed value)

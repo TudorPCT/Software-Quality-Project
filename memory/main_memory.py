@@ -22,7 +22,10 @@ class MainMemory:
         if assigned_peripherals_addresses is None:
             self.__mapped_peripherals, self.__stack_address = self.__peripherals_configure(mapped_peripherals)
         else:
-            self.__mapped_peripherals = self.__peripherals_configure_from_received(mapped_peripherals, assigned_peripherals_addresses)
+            self.__mapped_peripherals = self.__peripherals_configure_from_received(
+                mapped_peripherals,
+                assigned_peripherals_addresses
+            )
             self.__stack_address = stack_address
 
         self.__print_peripherals_report()
@@ -62,12 +65,13 @@ class MainMemory:
     def __setitem__(self, idx: Int16, val: Int16):
         assert idx.to_pyint() + 1 < len(self.__memory)
 
+        address = idx.to_pyint()
+
         for peripheral in self.__mapped_peripherals:
             if peripheral.in_range(idx):
-                peripheral[idx - peripheral.assigned_memory_idx] = Int8(val.to_pyint())
+                self.__memory[address] = Int8(val.to_pyint())
+                peripheral[idx - peripheral.assigned_memory_idx] = self.__memory[address]
                 return
-
-        address = idx.to_pyint()
 
         rh = Int8(val.to_pyint())
         lh = Int8(val.to_pyint() >> 8)

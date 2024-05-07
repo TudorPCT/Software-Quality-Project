@@ -1,5 +1,4 @@
 from data_type.int16 import Int16
-from data_type.int8 import Int8
 from data_type.flag import Flag
 
 from typing import TYPE_CHECKING
@@ -50,6 +49,8 @@ class Processor:
         self.flag_lteq = Flag(False)
         self.flag_gteq = Flag(False)
 
+        self.flag_zero = Flag(False)
+
         self.main_memory = main_memory
         self.program_memory = program_memory
 
@@ -64,6 +65,9 @@ class Processor:
         self.flag_gt = Flag(False)
         self.flag_lteq = Flag(False)
         self.flag_gteq = Flag(False)
+
+    def reset_arithemetic_flags(self):
+        self.flag_zero = Flag(False)
 
     def get_register_val(self, register: Register) -> Int16:
         return getattr(self, f"register_{register.name}")
