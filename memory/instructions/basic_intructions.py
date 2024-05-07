@@ -86,24 +86,17 @@ class Mul(BasicInstruction):
         return lh * rh
 
 
-class Div(Instruction):
+class Div(BasicInstruction):
     """
-    div ebx
-    div [10]
+    div eax, ebx
+    div eax, 10
+    div [10], ecx
     """
+    def __init__(self, lh: Operand, rh: Operand):
+        super().__init__(lh, rh)
 
-    def __init__(self, rh: Operand):
-        super().__init__()
-        self.rh = rh
-
-    def run(self, cpu: Processor) -> None:
-        result = cpu.register_eax / self.rh
-        remainder = cpu.register_eax % self.rh
-
-        set_value(cpu, Operand(Register["eax"]), result)
-        set_value(cpu, self.rh, remainder)
-
-        self.end(cpu)
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh / rh
 
 
 class NOT(Instruction):
