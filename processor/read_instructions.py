@@ -18,8 +18,7 @@ class InstructionParser:
             'ret': Ret,
             'call': Call
         }
-        self.jumps = {'jmp', 'jeq', 'jneq', 'jgt', 'jlt', 'jgteq', 'jlteq',
-                      'jz', 'jnz', 'js', 'jns', 'jc', 'JNC', 'call'}
+        self.jumps = {'jmp', 'jeq', 'jneq', 'jgt', 'jlt', 'jgteq', 'jlteq', 'jz', 'jnz', 'call'}
         self.no_arg_instructions = {'ret'}
 
     @staticmethod

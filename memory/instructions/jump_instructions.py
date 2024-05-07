@@ -113,7 +113,7 @@ class JZ(BasicJumpInstruction):
     def __init__(self, address: Operand):
         super().__init__(address)
 
-    def condition(self, cpu: Processor) -> bool:
+    def condition(self, cpu: Processor) -> Flag:
         return cpu.flag_zero
 
 
@@ -125,5 +125,5 @@ class JNZ(BasicJumpInstruction):
     def __init__(self, address: Operand):
         super().__init__(address)
 
-    def condition(self, cpu: Processor) -> bool:
-        return not cpu.flag_zero
+    def condition(self, cpu: Processor) -> Flag:
+        return cpu.flag_zero.__not__()
