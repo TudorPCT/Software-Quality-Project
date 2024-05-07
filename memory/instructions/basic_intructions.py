@@ -1,5 +1,4 @@
-from memory.instructions.instruction import Instruction, Processor, \
-    Operand, MemoryLocation, Register, Int16, get_value, set_value
+from memory.instructions.instruction import Instruction, Processor, Operand, MemoryLocation, Register, Int16, get_value, set_value
 
 
 class BasicInstruction(Instruction):
@@ -11,6 +10,8 @@ class BasicInstruction(Instruction):
     def run(self, cpu: Processor) -> None:
         assert isinstance(self.lh.data, Register) or isinstance(self.lh.data, MemoryLocation)
 
+        zero = Int16(0)
+
         cpu.reset_arithemetic_flags()
 
         lh_val = get_value(cpu, self.lh)
@@ -18,14 +19,13 @@ class BasicInstruction(Instruction):
 
         result = self.operation(lh_val, rh_val)
 
-        cpu.flag_zero = result[0] == 0
+        cpu.flag_zero = result == zero
 
-        set_value(cpu, self.lh, Int16(result[0]))
-        set_value(cpu, self.rh, result[1])
+        set_value(cpu, self.lh, result)
 
         self.end(cpu)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
         raise NotImplementedError()
 
 
@@ -56,8 +56,8 @@ class Add(BasicInstruction):
     def __init__(self, lh: Operand, rh: Operand):
         super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return lh.to_pyint() + rh.to_pyint(), rh
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh + rh
 
 
 class Sub(BasicInstruction):
@@ -69,8 +69,8 @@ class Sub(BasicInstruction):
     def __init__(self, lh: Operand, rh: Operand):
         super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return lh.to_pyint() - rh.to_pyint(), rh
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh - rh
 
 
 class Mul(BasicInstruction):
@@ -82,21 +82,28 @@ class Mul(BasicInstruction):
     def __init__(self, lh: Operand, rh: Operand):
         super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return lh.to_pyint() * rh.to_pyint(), rh
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh * rh
 
 
-class Div(BasicInstruction):
+class Div(Instruction):
     """
-    div eax, ebx
-    div eax, 10
-    div [10], ecx
+    div ebx
+    div [10]
     """
-    def __init__(self, lh: Operand, rh: Operand):
-        super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return lh.to_pyint() / rh.to_pyint(), lh.to_pyint() % rh.to_pyint()
+    def __init__(self, rh: Operand):
+        super().__init__()
+        self.rh = rh
+
+    def run(self, cpu: Processor) -> None:
+        result = cpu.register_eax / self.rh
+        remainder = cpu.register_eax % self.rh
+
+        set_value(cpu, Operand(Register["eax"]), result)
+        set_value(cpu, self.rh, remainder)
+
+        self.end(cpu)
 
 
 class NOT(Instruction):
@@ -123,8 +130,8 @@ class AND(BasicInstruction):
     def __init__(self, lh: Operand, rh: Operand):
         super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return (lh & rh).to_pyint(), rh
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh & rh
 
 
 class OR(BasicInstruction):
@@ -136,8 +143,8 @@ class OR(BasicInstruction):
     def __init__(self, lh: Operand, rh: Operand):
         super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return lh.to_pyint() | rh.to_pyint(), rh
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh | rh
 
 
 class XOR(BasicInstruction):
@@ -149,8 +156,8 @@ class XOR(BasicInstruction):
     def __init__(self, lh: Operand, rh: Operand):
         super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return lh.to_pyint() ^ rh.to_pyint(), rh
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh ^ rh
 
 
 class SHL(BasicInstruction):
@@ -162,8 +169,8 @@ class SHL(BasicInstruction):
     def __init__(self, lh: Operand, rh: Operand):
         super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return lh.to_pyint() << rh.to_pyint(), rh
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh << rh
 
 
 class SHR(BasicInstruction):
@@ -175,8 +182,8 @@ class SHR(BasicInstruction):
     def __init__(self, lh: Operand, rh: Operand):
         super().__init__(lh, rh)
 
-    def operation(self, lh: Int16, rh: Int16) -> (Int16, int):
-        return lh.to_pyint() >> rh.to_pyint(), rh
+    def operation(self, lh: Int16, rh: Int16) -> Int16:
+        return lh >> rh
 
 
 class Cmp(Instruction):
