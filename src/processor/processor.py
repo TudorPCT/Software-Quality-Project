@@ -1,5 +1,6 @@
 from src.data_type.int16 import Int16
 from src.data_type.flag import Flag
+from typing import Optional
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -28,6 +29,11 @@ class MemoryLocation:
 class Operand:
     def __init__(self, data: Int16 | Register | MemoryLocation):
         self.data = data
+
+
+class KillSwitch:
+    def __init__(self):
+        self.kill = False
 
 
 class Processor:
@@ -75,7 +81,14 @@ class Processor:
     def set_register_val(self, register: Register, val: Int16):
         setattr(self, f"register_{register.name}", val)
 
-    def run(self):
+    def run(self, kill_switch: Optional[KillSwitch] = None):
         while self.register_ip < self.program_memory.get_len():
+
+            if kill_switch is not None and kill_switch.kill is True:
+                break
+
             current_instruction = self.program_memory[self.register_ip]
             current_instruction.run(self)
+
+
+

@@ -8,19 +8,23 @@ import time
 class ComputerGUI:
     def __init__(self):
         self.window = tk.Tk()
+        self.__computer_thread: Thread = None
+        self.__killer_thread: Thread = None
 
     def run(self, computer_thread_fn: Callable, kill_callback: Optional[Callable] = None):
-        Thread(target=self.computer_runner, args=[computer_thread_fn]).start()
+        self.__computer_thread = Thread(target=self.__computer_runner, args=[computer_thread_fn])
+        self.__computer_thread.start()
 
         if kill_callback is not None:
-            Thread(target=self.kill_tunner, args=[kill_callback]).start()
+            self.__killer_thread = Thread(target=self.__kill_runner, args=[kill_callback])
+            self.__killer_thread.start()
 
         self.window.mainloop()
 
-    def computer_runner(self, fn: Callable):
+    def __computer_runner(self, fn: Callable):
         time.sleep(1)  # bootup
         fn()
 
-    def kill_tunner(self, fn: Callable):
+    def __kill_runner(self, fn: Callable):
         time.sleep(5)
         fn(self.window)

@@ -6,7 +6,7 @@ from src.peripheral.keyboard_peripheral import KeyboardPeripheral
 from src.peripheral.screen_peripheral import ScreenPeripheral
 from src.memory.main_memory import MainMemory
 from src.memory.program_memory import ProgramMemory
-from src.processor.processor import Processor
+from src.processor.processor import Processor, KillSwitch
 from src.data_type.int16 import Int16
 from src.processor.read_instructions import InstructionParser
 from src.util.config_parser import get_data
@@ -47,7 +47,10 @@ class TestStringMethods(unittest.TestCase):
 
         cpu = Processor(main_memory, program_memory)
 
-        gui.run(cpu.run, lambda window: window.quit())
+        kill_switch = KillSwitch()
+        gui.run(lambda: cpu.run(kill_switch), lambda window: window.quit())
+        kill_switch.kill = True
+
         print("Da")
         self.assertTrue(True)
 
