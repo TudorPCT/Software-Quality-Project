@@ -1,0 +1,7 @@
+mov eax, 10
+mov ebx, 11
+mov [10], 300
+sub ebx, eax
+label:
+    add ebx, [10]
+
