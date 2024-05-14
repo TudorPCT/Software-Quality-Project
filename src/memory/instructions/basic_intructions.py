@@ -1,9 +1,5 @@
-<<<<<<< HEAD:src/memory/instructions/basic_intructions.py
-from src.memory.instructions.instruction import Instruction, Processor, Operand, MemoryLocation, Register, Int16, get_value, set_value
-=======
-from memory.instructions.instruction import Instruction, Processor, Operand, \
-    MemoryLocation, Register, Int16, get_value, set_value
->>>>>>> main:memory/instructions/basic_intructions.py
+from src.memory.instructions.instruction import Instruction, Processor, \
+    Operand, MemoryLocation, Register, Int16, get_value, set_value
 
 
 class BasicInstruction(Instruction):
