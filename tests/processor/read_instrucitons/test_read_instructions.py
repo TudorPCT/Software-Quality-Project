@@ -3,6 +3,7 @@ from unittest.mock import patch, MagicMock
 
 from src.processor.read_instructions import InstructionParser
 
+
 class TestReadInstructions(TestCase):
 
     @patch('builtins.open')
