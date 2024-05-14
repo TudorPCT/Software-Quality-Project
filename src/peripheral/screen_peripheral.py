@@ -32,8 +32,12 @@ class ScreenPeripheral(Peripheral):
             for j in range(ScreenPeripheral.cols_nr.to_pyint()):
                 frame = tk.Frame(
                   master=self.main_frame,
+<<<<<<< HEAD:src/peripheral/screen_peripheral.py
                   relief=tk.FLAT,
                   #borderwidth=1
+=======
+                  relief=tk.FLAT
+>>>>>>> main:peripheral/screen_peripheral.py
                 )
                 frame.grid(row=i, column=j)
                 self.pixels[i][j] = tk.Label(master=frame, bg="black", fg="white", height=2, width=4, padx=0, pady=0)
