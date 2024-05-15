@@ -75,10 +75,10 @@ The main components of the system are:
 
 ### Specifications
 
-Use of unit testing tools to test the code developed during phase 1.
-Reminder: unit testing is about discovering if the module being tested can handle incorrect input data (provided by other modules or by application I/O). Error fixing is NOT required.
-Testing must provide code coverage as complete as possible. For indications regarding the conditions to be tested, read the courses.
-Each module must be tested independently. For simulating the interactions with other modules, where necessary, mocking will be used.
+- Use of unit testing tools to test the code developed during phase 1.
+- Reminder: unit testing is about discovering if the module being tested can handle incorrect input data (provided by other modules or by application I/O). Error fixing is NOT required.
+- Testing must provide code coverage as complete as possible. For indications regarding the conditions to be tested, read the courses.
+- Each module must be tested independently. For simulating the interactions with other modules, where necessary, mocking will be used.
 
 ### Deadline
 
