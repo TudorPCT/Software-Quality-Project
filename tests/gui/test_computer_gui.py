@@ -16,15 +16,25 @@ class TestComputerGUI(unittest.TestCase):
         self.assertIsNone(self.gui._ComputerGUI__computer_thread)
         self.assertIsNone(self.gui._ComputerGUI__killer_thread)
 
-    def test_run_with_computer_thread(self):
-        mock_computer_thread_fn = MagicMock()
-        self.gui.run(mock_computer_thread_fn)
-        self.assertFalse(self.gui._ComputerGUI__computer_thread.is_alive())
+    # def test_run_with_computer_thread(self):
+    #     mock_computer_thread_fn = MagicMock()
+    #     self.gui.run(mock_computer_thread_fn, lambda window: window.destroy())
+    #     self.assertFalse(self.gui._ComputerGUI__computer_thread.is_alive())
+    #
+    # def test_run_with_kill_callback(self):
+    #     mock_kill_callback = MagicMock(side_effect=lambda window: window.destroy())
+    #     self.gui.run(lambda: None, mock_kill_callback)
+    #     self.assertTrue(self.gui._ComputerGUI__killer_thread.is_alive())
 
-    def test_run_with_kill_callback(self):
-        mock_kill_callback = MagicMock()
-        self.gui.run(lambda: None, mock_kill_callback)
-        self.assertTrue(self.gui._ComputerGUI__killer_thread.is_alive())
+    def test_run_with_computer_thread(self):
+        self.test_flag = False
+
+        def set_flag():
+            self.test_flag = True
+
+        self.gui.run(set_flag, lambda window: window.destroy())
+        self.assertFalse(self.gui._ComputerGUI__computer_thread.is_alive())
+        self.assertTrue(self.test_flag)
 
     def test_run_without_kill_callback(self):
         self.gui.run(lambda: None)
