@@ -22,7 +22,15 @@ movl_ecx_end:
     RET
 
 input_loop:
-    MOV edx, [1022]
+    read_from_keyboard:
+        MOV eax, [1022]
+        CMP eax, 0
+        JEQ read_from_keyboard
+
+    SUB eax, 48
+    MUL 2
+    DIV 10
+    ADD edx, 48
 
     MOV ebx, 0
     MOV ecx, 0

@@ -31,7 +31,7 @@ class InstructionParser:
             if value.isdigit():
                 return Operand(MemoryLocation(Int16(int(value))))
 
-            return Operand(MemoryLocation(Register[operand_str]))
+            return Operand(MemoryLocation(Register[value]))
 
         elif operand_str.isdigit():
             return Operand(Int16(int(operand_str)))
