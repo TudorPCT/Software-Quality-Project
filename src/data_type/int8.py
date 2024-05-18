@@ -66,6 +66,9 @@ class Int8:
     def __rshift__(self, shift):
         return Int8(self._value >> shift)
 
+    def __hash__(self):
+        return hash(self.value)
+
     def to_bits(self):
         return bin(self._value)[2:].zfill(16)
 

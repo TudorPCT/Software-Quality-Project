@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock
 
 from src.data_type.int16 import Int16
-from src.memory.instructions.basic_intructions import Mov
+from src.memory.instructions.basic_instructions import Mov
 from src.memory.instructions.jump_instructions import Jmp
 from src.memory.instructions.stack_instructions import Ret
 from src.processor.processor import Operand, MemoryLocation, Register

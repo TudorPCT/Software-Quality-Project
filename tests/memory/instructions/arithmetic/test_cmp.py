@@ -1,13 +1,14 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
-from memory.instructions.basic_intructions import Cmp, Operand
-from processor.processor import Processor, Register
-from data_type.int16 import Int16
+
+from src.data_type.int16 import Int16
+from src.memory.instructions.basic_instructions import Cmp
+from src.processor.processor import Processor, Register, Operand
+
 
 class TestCmp(TestCase):
     def test_cmp_registers(self):
         cpu = MagicMock(Processor)
-        memory = MagicMock()
 
         cpu.get_register_val.side_effect = lambda reg: Int16(10) if reg == Register.eax else Int16(10)
         cpu.register_ip = Int16()

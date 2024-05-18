@@ -1,15 +1,14 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
-from memory.instructions.basic_intructions import Mov, Operand
-from processor.processor import Processor, Register
-from data_type.int16 import Int16
 
-from processor.processor import Operand, Register
+from src.data_type.int16 import Int16
+from src.memory.instructions.basic_instructions import Mov
+from src.processor.processor import Processor, Operand, Register
+
 
 class TestMov(TestCase):
     def test_mov_register_to_register(self):
         cpu = MagicMock(Processor)
-        memory = MagicMock()
 
         cpu.set_register_val.side_effect = None
         cpu.get_register_val.side_effect = lambda reg: Int16(100) if reg == Register.ebx else Int16(50)

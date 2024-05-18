@@ -1,4 +1,4 @@
-from src.memory.instructions.basic_intructions import *
+from src.memory.instructions.basic_instructions import *
 from src.memory.instructions.jump_instructions import *
 from src.memory.instructions.stack_instructions import *
 

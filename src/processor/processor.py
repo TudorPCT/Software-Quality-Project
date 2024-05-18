@@ -25,10 +25,22 @@ class MemoryLocation:
     def __init__(self, data: Register | Int16):
         self.data = data
 
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.data == other.data
+
+    def __hash__(self):
+        return hash(self.data)
+
 
 class Operand:
     def __init__(self, data: Int16 | Register | MemoryLocation):
         self.data = data
+
+    def __hash__(self):
+        return hash(self.data)
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.data == other.data
 
 
 class KillSwitch:

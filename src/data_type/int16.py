@@ -61,10 +61,13 @@ class Int16:
         return Int16(~self._value)
 
     def __lshift__(self, shift):
-        return Int16(self._value << shift)
+        return Int16(self._value << shift.value)
 
     def __rshift__(self, shift):
-        return Int16(self._value >> shift)
+        return Int16(self._value >> shift.value)
+
+    def __hash__(self):
+        return hash(self.value)
 
     def to_bits(self):
         return bin(self._value)[2:].zfill(16)

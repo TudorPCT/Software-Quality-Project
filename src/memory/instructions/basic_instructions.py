@@ -86,7 +86,9 @@ class Mul(Instruction):
         self.rh = rh
 
     def run(self, cpu: Processor) -> None:
-        result = cpu.register_eax * self.rh.data
+        rh_val = get_value(cpu, self.rh)
+
+        result = cpu.register_eax * rh_val
 
         set_value(cpu, Operand(Register["eax"]), result)
 
@@ -105,8 +107,10 @@ class Div(Instruction):
         self.rh = rh
 
     def run(self, cpu: Processor) -> None:
-        result = cpu.register_eax / self.rh.data
-        remainder = cpu.register_eax % self.rh.data
+        rh_val = get_value(cpu, self.rh)
+
+        result = cpu.register_eax / rh_val
+        remainder = cpu.register_eax % rh_val
 
         set_value(cpu, Operand(Register["eax"]), result)
         set_value(cpu, Operand(Register["edx"]), remainder)
