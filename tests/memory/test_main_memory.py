@@ -7,7 +7,7 @@ from src.memory.main_memory import MainMemory
 from pathlib import Path
 
 
-RES_DIR = os.path.join(str(Path(__file__).parent.absolute()), "resources")
+RES_DIR = os.path.join(str(Path(__file__).parent.absolute()), "../resources")
 
 
 class TestMainMemory(unittest.TestCase):
