@@ -41,7 +41,7 @@ class TestInt16(TestCase):
 
     def test_shift_operations(self):
         int16 = Int16(0b1010)
-        result = int16 << 2
+        result = int16 << Int16(2)
         self.assertEqual(result.value, 0b101000)
 
     def test_to_bits(self):
