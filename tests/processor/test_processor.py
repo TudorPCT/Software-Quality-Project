@@ -7,7 +7,7 @@ from src.processor.processor import Processor, Register
 from pathlib import Path
 
 
-RES_DIR = os.path.join(str(Path(__file__).parent.absolute()), "resources")
+RES_DIR = os.path.join(str(Path(__file__).parent.absolute()), "../resources")
 
 
 def util_mock_run(processor_arg: Processor):
