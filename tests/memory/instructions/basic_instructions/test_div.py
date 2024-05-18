@@ -39,8 +39,6 @@ class TestDiv(TestCase):
             ]
         )
 
-        del sys.modules['src.memory.instructions.basic_instructions']
-
     @patch('src.memory.instructions.instruction.get_value')
     @patch('src.memory.instructions.instruction.set_value')
     def test_div_by_zero(self, mock_set_value, mock_get_value):
@@ -57,5 +55,3 @@ class TestDiv(TestCase):
 
         with self.assertRaises(ZeroDivisionError):
             div_instruction.run(cpu)
-
-        del sys.modules['src.memory.instructions.basic_instructions']

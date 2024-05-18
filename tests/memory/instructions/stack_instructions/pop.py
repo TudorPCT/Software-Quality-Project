@@ -46,23 +46,20 @@ class TestPop(TestCase):
 
         pop_instruction.run(cpu)
 
-        mock_set_value.assert_called_once_with(cpu, Operand(Int16(500)), Int16(84))
+        mock_set_value.assert_called_once_with(cpu, Operand(MemoryLocation(Int16(500))), Int16(84))
         cpu.main_memory.__getitem__.assert_called_once_with(Int16(1024))
         self.assertEqual(cpu.register_esp, Int16(1024))
 
-    @patch('src.memory.instructions.instruction.set_value')
-    def test_stack_underflow(self, mock_set_value):
+    def test_stack_underflow(self):
         from src.memory.instructions.stack_instructions import Pop
 
-        # Setup the CPU mock
         cpu = MagicMock(Processor)
-        cpu.register_esp = Int16(2046)  # Initial stack pointer close to underflow
+        cpu.register_esp = Int16(2048)
         cpu.main_memory = MagicMock()
         cpu.main_memory.get_stack_base.return_value = Int16(2048)
+        cpu.register_ip = Int16(0)
 
-        # Create the Pop instruction
         pop_instruction = Pop(Operand(Register.eax))
 
-        # Run the Pop instruction and expect an assertion error for stack underflow
         with self.assertRaises(AssertionError):
             pop_instruction.run(cpu)

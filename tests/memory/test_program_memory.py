@@ -1,7 +1,7 @@
 from src.data_type.int8 import Int8
 from src.data_type.int16 import Int16
 from unittest.mock import MagicMock, Mock
-from src.memory.instructions.basic_intructions import Mov, Add
+from src.memory.instructions.basic_instructions import Mov, Add
 from src.processor.processor import Register, Operand
 import unittest
 import os
