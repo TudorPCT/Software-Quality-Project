@@ -1,23 +1,30 @@
 from unittest import TestCase
-from unittest.mock import MagicMock
-
+from unittest.mock import MagicMock, call, patch
 from src.data_type.int16 import Int16
-from src.memory.instructions.basic_instructions import NOT
 from src.processor.processor import Processor, Operand, Register
-
+import sys
 
 class TestNOT(TestCase):
-    def test_not_register(self):
+
+    def setUp(self):
+        if 'src.memory.instructions.basic_instructions' in sys.modules:
+            del sys.modules['src.memory.instructions.basic_instructions']
+
+    @patch('src.memory.instructions.instruction.get_value')
+    @patch('src.memory.instructions.instruction.set_value')
+    def test_not(self, mock_set_value, mock_get_value):
+        from src.memory.instructions.basic_instructions import NOT
+
         cpu = MagicMock(Processor)
 
-        cpu.get_register_val.side_effect = lambda reg: Int16(5) if reg == Register.eax else None
-        cpu.set_register_val.side_effect = None
-        cpu.register_ip = Int16()
+        mock_get_value.side_effect = lambda cpu, operand: Int16(5) if operand == Operand(Register.eax) else None
+        mock_set_value.side_effect = None
 
-# If x is 5 (0101 in binary), ~x would be -(0101 + 1), which equals -6.
+        cpu.register_ip = Int16()
 
         not_instruction = NOT(Operand(Register.eax))
 
         not_instruction.run(cpu)
 
-        cpu.set_register_val.assert_called_once_with(Register.eax, Int16(-6))
+        mock_get_value.assert_called_once_with(cpu, Operand(Register.eax))
+        mock_set_value.assert_called_once_with(cpu, Operand(Register.eax), Int16(-6))
