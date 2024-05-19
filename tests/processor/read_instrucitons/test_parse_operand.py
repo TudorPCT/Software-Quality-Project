@@ -59,3 +59,13 @@ class TestParseOperand(TestCase):
         operand_str = "invalid_register"
         with self.assertRaises(KeyError):
             InstructionParser.parse_operand(operand_str)
+
+    def test_parse_with_multiple_spaces(self):
+        str_to_parse = "mov  eax,  10" # merge
+        # str_to_parse = "mov  eax ,  10"  # crapa
+        instruction_parser = InstructionParser("")
+        parsed_operands = instruction_parser.parse_instruction(str_to_parse.strip(), {})
+        self.assertTrue(parsed_operands.lh == Operand(Register['eax']))
+        self.assertTrue(parsed_operands.rh == Operand(Int16(10)))
+
+
