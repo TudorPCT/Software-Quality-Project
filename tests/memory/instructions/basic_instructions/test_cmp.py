@@ -2,9 +2,9 @@ from unittest import TestCase
 from unittest.mock import MagicMock, call, patch
 from src.data_type.int16 import Int16
 from src.processor.processor import Processor, Operand, Register
-from src.memory.instructions.basic_instructions import Cmp
 from src.data_type.flag import Flag
 import sys
+
 
 class TestCmp(TestCase):
 
@@ -12,8 +12,10 @@ class TestCmp(TestCase):
         if 'src.memory.instructions.basic_instructions' in sys.modules:
             del sys.modules['src.memory.instructions.basic_instructions']
 
-    @patch('src.memory.instructions.instruction.get_value')
+    @patch('src.memory.instructions.basic_instructions.get_value')
     def test_cmp(self, mock_get_value):
+        from src.memory.instructions.basic_instructions import Cmp
+
         cpu = MagicMock(Processor)
         cpu.register_ip = Int16()
 
@@ -32,9 +34,9 @@ class TestCmp(TestCase):
 
         mock_get_value.assert_has_calls([call(cpu, Operand(Register.eax)), call(cpu, Operand(Register.ebx))])
 
-        self.assertTrue(cpu.flag_eq.value)
-        self.assertFalse(cpu.flag_neq.value)
+        self.assertFalse(cpu.flag_eq.value)
+        self.assertTrue(cpu.flag_neq.value)
         self.assertFalse(cpu.flag_lt.value)
         self.assertTrue(cpu.flag_gt.value)
-        self.assertTrue(cpu.flag_lteq.value)
+        self.assertFalse(cpu.flag_lteq.value)
         self.assertTrue(cpu.flag_gteq.value)

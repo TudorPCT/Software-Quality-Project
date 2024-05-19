@@ -9,7 +9,10 @@ class BasicJumpInstruction(Instruction):
         self.address = address.data
 
     def run(self, cpu: Processor) -> None:
-        if self.condition(cpu):
+        condition_result = self.condition(cpu)
+        assert isinstance(condition_result, Flag)
+
+        if condition_result.to_pybool():
             cpu.register_ip = self.address
         else:
             self.end(cpu)

@@ -8,7 +8,7 @@ import os
 RES_DIR = os.path.join(str(Path(__file__).parent.absolute()), "resources")
 
 if __name__ == "__main__":
-    # instruction_parser = InstructionParser(r"D:\personal\Quality\Software-Quality-Project\resources\instructions.txt")
+    # instruction_parser = InstructionParser(os.path.join(RES_DIR, "instructions.txt"))
     instruction_parser = InstructionParser(
         os.path.join(RES_DIR, "instructions_prim.txt")
     )

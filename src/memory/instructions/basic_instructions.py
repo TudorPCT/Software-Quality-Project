@@ -1,3 +1,4 @@
+from src.data_type.flag import Flag
 from src.memory.instructions.instruction import Instruction, Processor, \
     Operand, MemoryLocation, Register, Int16, get_value, set_value
 
@@ -215,11 +216,11 @@ class Cmp(Instruction):
 
         cpu.reset_flags()
 
-        cpu.flag_eq = lh_val == rh_val
-        cpu.flag_neq = lh_val != rh_val
-        cpu.flag_lt = lh_val < rh_val
-        cpu.flag_gt = lh_val > rh_val
+        cpu.flag_eq = Flag(lh_val == rh_val)
+        cpu.flag_neq = Flag(lh_val != rh_val)
+        cpu.flag_lt = Flag(lh_val < rh_val)
+        cpu.flag_gt = Flag(lh_val > rh_val)
 
-        cpu.flag_lteq = cpu.flag_eq or cpu.flag_lt
-        cpu.flag_gteq = cpu.flag_eq or cpu.flag_gt
+        cpu.flag_lteq = Flag(cpu.flag_eq.to_pybool() or cpu.flag_lt.to_pybool())
+        cpu.flag_gteq = Flag(cpu.flag_eq.to_pybool() or cpu.flag_gt.to_pybool())
         self.end(cpu)
