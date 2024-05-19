@@ -94,6 +94,8 @@ class Processor:
         setattr(self, f"register_{register.name}", val)
 
     def run(self, kill_switch: Optional[KillSwitch] = None):
+        assert Int16(0) <= self.register_ip
+
         while self.register_ip < self.program_memory.get_len():
 
             if kill_switch is not None and kill_switch.kill is True:
@@ -102,5 +104,4 @@ class Processor:
             current_instruction = self.program_memory[self.register_ip]
             current_instruction.run(self)
 
-
-
+            assert Int16(0) <= self.register_ip <= self.program_memory.get_len()
