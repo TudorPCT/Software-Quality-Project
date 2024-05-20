@@ -4,6 +4,7 @@ from src.data_type.int16 import Int16
 from src.processor.processor import Processor, Operand, Register
 import sys
 
+
 class TestSHR(TestCase):
 
     def setUp(self):

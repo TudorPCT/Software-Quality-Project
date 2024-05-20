@@ -4,7 +4,8 @@ from src.data_type.int16 import Int16
 from src.processor.processor import Processor, Operand, Register
 import sys
 
-class TestNOT(TestCase):
+
+class TestSHL(TestCase):
 
     def setUp(self):
         if 'src.memory.instructions.basic_instructions' in sys.modules:
@@ -12,19 +13,20 @@ class TestNOT(TestCase):
 
     @patch('src.memory.instructions.instruction.get_value')
     @patch('src.memory.instructions.instruction.set_value')
-    def test_not(self, mock_set_value, mock_get_value):
-        from src.memory.instructions.basic_instructions import NOT
+    def test_shl(self, mock_set_value, mock_get_value):
+        from src.memory.instructions.basic_instructions import SHL
 
         cpu = MagicMock(Processor)
 
-        mock_get_value.side_effect = lambda cpu, operand: Int16(5) if operand == Operand(Register.eax) else None
+        mock_get_value.side_effect = lambda cpu, operand: Int16(0b00110) if operand == Operand(Register.eax) else Int16(2)
         mock_set_value.side_effect = None
 
         cpu.register_ip = Int16()
 
-        not_instruction = NOT(Operand(Register.eax))
+        shl_instruction = SHL(Operand(Register.eax), Operand(Register.ebx))
 
-        not_instruction.run(cpu)
+        shl_instruction.run(cpu)
 
-        mock_get_value.assert_called_once_with(cpu, Operand(Register.eax))
-        mock_set_value.assert_called_once_with(cpu, Operand(Register.eax), Int16(-6 & 0xFFFF))
+        mock_get_value.assert_has_calls([call(cpu, Operand(Register.eax)), call(cpu, Operand(Register.ebx))])
+        mock_set_value.assert_called_once_with(cpu, Operand(Register.eax), Int16(0b11000))
+

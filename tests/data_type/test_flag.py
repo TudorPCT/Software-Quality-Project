@@ -1,3 +1,4 @@
+import unittest
 from unittest import TestCase
 
 from src.data_type.flag import Flag
@@ -6,48 +7,41 @@ from src.data_type.flag import Flag
 class TestFlag(TestCase):
 
     def test_initialization(self):
-        flag = Flag()
-        self.assertIsInstance(flag, Flag)
-        self.assertFalse(flag.value)
+        flag1 = Flag()
+        self.assertEqual(flag1.value, False)
 
-        flag = Flag(True)
-        self.assertTrue(flag.value)
+        flag2 = Flag(True)
+        self.assertEqual(flag2.value, True)
 
     def test_to_pybool(self):
-        flag = Flag()
-        self.assertEqual(flag.to_pybool(), False)
-
-        flag = Flag(True)
-        self.assertEqual(flag.to_pybool(), True)
-
-    def test_bitwise_or(self):
         flag1 = Flag()
-        flag2 = Flag()
-        result = flag1 | flag2
-        self.assertIsInstance(result, Flag)
-        self.assertFalse(result.value)
+        self.assertEqual(flag1.to_pybool(), False)
 
-        flag1 = Flag(True)
-        flag2 = Flag()
-        result = flag1 | flag2
-        self.assertTrue(result.value)
+        flag2 = Flag(True)
+        self.assertEqual(flag2.to_pybool(), True)
 
+    def test_or_operator(self):
         flag1 = Flag()
         flag2 = Flag(True)
-        result = flag1 | flag2
-        self.assertTrue(result.value)
+        result1 = flag1 | flag2
+        self.assertEqual(result1.value, True)
 
-        flag1 = Flag(True)
+        result2 = flag1 | Flag()
+        self.assertEqual(result2.value, False)
+
+    def test_hash(self):
+        flag1 = Flag()
+        flag2 = Flag()
+        self.assertEqual(hash(flag1), hash(flag2))
+
+        flag3 = Flag(True)
+        self.assertNotEqual(hash(flag1), hash(flag3))
+
+    def test_not_operator(self):
+        flag1 = Flag()
+        result1 = flag1.__not__()
+        self.assertEqual(result1.value, True)
+
         flag2 = Flag(True)
-        result = flag1 | flag2
-        self.assertTrue(result.value)
-
-    def test_logical_negation(self):
-        flag = Flag()
-        result = flag.__not__()
-        self.assertIsInstance(result, Flag)
-        self.assertTrue(result.value)
-
-        flag = Flag(True)
-        result = flag.__not__()
-        self.assertFalse(result.value)
+        result2 = flag2.__not__()
+        self.assertEqual(result2.value, False)
