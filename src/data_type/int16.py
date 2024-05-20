@@ -74,26 +74,3 @@ class Int16:
 
     def to_pyint(self) -> int:
         return self._value
-
-
-if __name__ == '__main__':
-    a = Int16(0b1111111111111111)  # Maximum 16-bit value
-    b = Int16(0b0000000000000001)  # Minimum 16-bit value
-
-    print("a =", a)  # Output: a = 65535
-    print("b =", b)  # Output: b = 1
-
-    c = a + b
-    print("c =", c)  # Output: c = 0 (Wraps around due to overflow)
-
-    d = a & Int16(0b1111000011110000)  # Bitwise AND
-    print("d =", d)  # Output: d = 61440
-
-    e = ~b  # Bitwise NOT
-    print("e =", e)  # Output: e = -2 (due to two's complement representation)
-
-    a = Int16(65536)  # Providing a value larger than 16-bit range
-    print("a =", a)  # Output: a = 65535 (maximum allowed value)
-
-    b = Int16(100)  # Providing a value within the 16-bit range
-    print("b =", b)  # Output: b = 100

@@ -74,14 +74,3 @@ class Int8:
 
     def to_pyint(self) -> int:
         return self._value
-
-
-if __name__ == '__main__':
-    a = Int8(256)  # Providing a value larger than 8-bit range
-    print("a =", a)  # Output: a = 255 (maximum allowed value)
-
-    b = Int8(100)  # Providing a value within the 8-bit range
-    print("b =", b)  # Output: b = 100
-
-    c = Int8(0b1111111111)  # Providing a value larger than 8-bit range
-    print("c =", c)  # Output: c = 255 (maximum allowed value)
