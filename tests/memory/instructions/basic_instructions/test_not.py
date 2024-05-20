@@ -27,4 +27,4 @@ class TestNOT(TestCase):
         not_instruction.run(cpu)
 
         mock_get_value.assert_called_once_with(cpu, Operand(Register.eax))
-        mock_set_value.assert_called_once_with(cpu, Operand(Register.eax), Int16(-6))
+        mock_set_value.assert_called_once_with(cpu, Operand(Register.eax), Int16(-6 & 0xFFFF))

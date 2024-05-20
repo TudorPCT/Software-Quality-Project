@@ -58,7 +58,7 @@ class Int16:
         return Int16(self._value ^ other.value)
 
     def __invert__(self):
-        return Int16(~self._value)
+        return Int16(~self._value & 0xFFFF)
 
     def __lshift__(self, shift):
         return Int16(self._value << shift.value)

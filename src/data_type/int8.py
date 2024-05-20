@@ -58,7 +58,7 @@ class Int8:
         return Int8(self._value ^ other.value)
 
     def __invert__(self):
-        return Int8(~self._value)
+        return Int8(~self._value & 0xFF)
 
     def __lshift__(self, shift):
         return Int8(self._value << shift)
