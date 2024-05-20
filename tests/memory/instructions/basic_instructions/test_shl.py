@@ -5,7 +5,7 @@ from src.processor.processor import Processor, Operand, Register
 import sys
 
 
-class TestSHR(TestCase):
+class TestSHL(TestCase):
 
     def setUp(self):
         if 'src.memory.instructions.basic_instructions' in sys.modules:
@@ -13,20 +13,20 @@ class TestSHR(TestCase):
 
     @patch('src.memory.instructions.instruction.get_value')
     @patch('src.memory.instructions.instruction.set_value')
-    def test_shr(self, mock_set_value, mock_get_value):
-        from src.memory.instructions.basic_instructions import SHR
+    def test_shl(self, mock_set_value, mock_get_value):
+        from src.memory.instructions.basic_instructions import SHL
 
         cpu = MagicMock(Processor)
 
-        mock_get_value.side_effect = lambda cpu, operand: Int16(0b1100) if operand == Operand(Register.eax) else Int16(2)
+        mock_get_value.side_effect = lambda cpu, operand: Int16(0b00110) if operand == Operand(Register.eax) else Int16(2)
         mock_set_value.side_effect = None
 
         cpu.register_ip = Int16()
 
-        shr_instruction = SHR(Operand(Register.eax), Operand(Register.ebx))
+        shl_instruction = SHL(Operand(Register.eax), Operand(Register.ebx))
 
-        shr_instruction.run(cpu)
+        shl_instruction.run(cpu)
 
         mock_get_value.assert_has_calls([call(cpu, Operand(Register.eax)), call(cpu, Operand(Register.ebx))])
-        mock_set_value.assert_called_once_with(cpu, Operand(Register.eax), Int16(0b0011))
+        mock_set_value.assert_called_once_with(cpu, Operand(Register.eax), Int16(0b11000))
 
