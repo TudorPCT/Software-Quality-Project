@@ -30,6 +30,9 @@ class ScreenPeripheral(Peripheral):
         self.main_frame = Frame(root.window, bg='black', width=1250, height=490)
         for i in range(ScreenPeripheral.lines_nr.to_pyint()):
             for j in range(ScreenPeripheral.cols_nr.to_pyint()):
+                assert len(self.pixels) > i
+                assert len(self.pixels[i]) > j
+
                 frame = tk.Frame(
                   master=self.main_frame,
                   relief=tk.FLAT

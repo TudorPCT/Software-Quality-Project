@@ -1,3 +1,4 @@
+import os
 from src.memory.instructions.basic_instructions import *
 from src.memory.instructions.jump_instructions import *
 from src.memory.instructions.stack_instructions import *
@@ -59,6 +60,9 @@ class InstructionParser:
         instructions = []
         labels = {}
         line_index = 0
+
+        assert os.path.isfile(self.file_path)
+
         with open(self.file_path, 'r') as file:
             for line in file:
                 line = line.strip()
@@ -66,6 +70,7 @@ class InstructionParser:
                     labels[line[:-1]] = line_index
                 elif line:
                     line_index += 1
+                    assert line_index >= 0
 
             file.seek(0)
             for line in file:
@@ -74,5 +79,7 @@ class InstructionParser:
                     if line.endswith(":"):
                         continue
                     instructions.append(self.parse_instruction(line, labels))
+                    assert len(instructions) <= line_index
 
+        assert len(instructions) == line_index
         return instructions

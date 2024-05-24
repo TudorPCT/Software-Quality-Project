@@ -46,7 +46,13 @@ class MainMemory:
     def __peripherals_configure_from_received(self, mapped_peripherals: list[Peripheral],
                                               assigned_peripherals_addresses: Optional[list[Int16]]) -> list[Peripheral]:
 
-        for peripheral, assigned_addresses in zip(mapped_peripherals, assigned_peripherals_addresses):
+        sorted_peripherals = list(sorted(zip(mapped_peripherals, assigned_peripherals_addresses), key=lambda item: item[1].to_pyint()))
+
+        for idx, (peripheral, assigned_addresses) in enumerate(sorted_peripherals):
+
+            assert idx < len(sorted_peripherals)
+            assert (idx + 1 >= len(sorted_peripherals)) or (assigned_addresses + peripheral.get_necessarily_memory_size() - Int16(1) < sorted_peripherals[idx + 1][1])
+
             peripheral.configure_memory(self, assigned_addresses)
 
         return mapped_peripherals
@@ -56,7 +62,11 @@ class MainMemory:
 
         for peripheral in self.__mapped_peripherals:
             if peripheral.in_range(idx):
-                return Int16(peripheral[idx - peripheral.assigned_memory_idx].to_pyint())
+                try:
+                    return Int16(peripheral[idx - peripheral.assigned_memory_idx].to_pyint())
+                except NotImplementedError as e:
+                    address = idx.to_pyint()
+                    return Int16(self.__memory[address].to_pyint())
 
         address = idx.to_pyint()
         result = (self.__memory[address].to_pyint() << 8) | self.__memory[address + 1].to_pyint()
@@ -78,6 +88,8 @@ class MainMemory:
 
         self.__memory[address] = lh
         self.__memory[address + 1] = rh
+
+        assert (self.__memory[address].to_pyint() << 8) | self.__memory[address + 1].to_pyint() == val.to_pyint()
 
     def get_stack_base(self) -> Int16:
         return self.__stack_address

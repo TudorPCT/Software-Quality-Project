@@ -32,6 +32,9 @@ class TestBasicJumpInstruction(TestCase):
     def test_static_run(self):
         address = Operand(Int16(24))
         cpu = MagicMock(Processor)
+        program_memory = MagicMock()
+        program_memory.get_len = MagicMock(return_value=Int16(24))
+        cpu.program_memory = program_memory
 
         BasicJumpInstruction.static_run(address, cpu)
         self.assertEqual(cpu.register_ip, Int16(24))

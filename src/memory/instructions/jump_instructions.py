@@ -21,6 +21,7 @@ class BasicJumpInstruction(Instruction):
     def static_run(address: Operand, cpu: Processor):
         assert isinstance(address.data, Int16)
         cpu.register_ip = address.data
+        assert Int16(0) <= cpu.register_ip <= cpu.program_memory.get_len()
 
     def condition(self, cpu: Processor) -> Flag:
         raise NotImplementedError()

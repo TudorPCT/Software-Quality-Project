@@ -36,6 +36,8 @@ class TestSetValueFunction(TestCase):
         operand = Operand(self.memory_location)
         value = Int16(5678)
 
+        self.cpu.main_memory.__getitem__ = MagicMock(return_value=Int16(5678))
+
         set_value(self.cpu, operand, value)
 
         self.cpu.main_memory.__setitem__.assert_called_with(self.memory_location.data, value)

@@ -44,6 +44,7 @@ class Pop(Instruction):
 
         set_value(cpu, location, cpu.main_memory[cpu.register_esp + Int16(2)])
         cpu.register_esp += Int16(2)
+        assert cpu.main_memory.get_stack_base() >= cpu.register_esp
 
 
 class Call(Instruction):

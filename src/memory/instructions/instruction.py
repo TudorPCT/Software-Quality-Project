@@ -2,18 +2,22 @@ from src.data_type.int16 import Int16
 from src.processor.processor import Operand, Processor, Register, MemoryLocation
 
 
-def get_value(cpu: Processor, op: Operand) -> Int16():
+def get_value(cpu: Processor, op: Operand) -> Int16:
+    assert isinstance(op, Operand)
+    result = None
+
     if isinstance(op.data, Int16):
-        return op.data
+        result = op.data
+    elif isinstance(op.data, Register):
+        result = cpu.get_register_val(op.data)
+    elif isinstance(op.data, MemoryLocation):
+        result = cpu.main_memory[get_value(cpu, Operand(op.data.data))]
 
-    if isinstance(op.data, Register):
-        return cpu.get_register_val(op.data)
-
-    if isinstance(op.data, MemoryLocation):
-        return cpu.main_memory[get_value(cpu, Operand(op.data.data))]
+    assert isinstance(result, Int16)
+    return result
 
 
-def set_value(cpu: Processor, op: Operand, val: Int16()) -> None:
+def set_value(cpu: Processor, op: Operand, val: Int16) -> None:
     assert not isinstance(op.data, Int16)
 
     if isinstance(op.data, Register):
@@ -21,6 +25,8 @@ def set_value(cpu: Processor, op: Operand, val: Int16()) -> None:
 
     if isinstance(op.data, MemoryLocation):
         cpu.main_memory[get_value(cpu, Operand(op.data.data))] = val
+
+    assert get_value(cpu, op) == val
 
 
 class Instruction:

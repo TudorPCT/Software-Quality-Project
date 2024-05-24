@@ -65,6 +65,5 @@ class TestGetValue(TestCase):
         cpu = MagicMock(spec=Processor)
         op = Operand(None)
 
-        result = get_value(cpu, op)
+        self.assertRaises(AssertionError, lambda: get_value(cpu, op))
 
-        self.assertIsNone(result)
